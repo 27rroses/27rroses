@@ -1,0 +1,31 @@
+# ==========================================================================
+# 27rroses Project Gitignore Framework
+# ==========================================================================
+
+# --- Operating System System Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Code Editor & IDE Workspaces ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- Local Development Servers & Logs ---
+.live-server/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Optional: Local Test Images (Uncomment if needed) ---
+# If you drop giant temporary test photos directly into your main folders
+# and don't want them tracked on GitHub, uncomment the lines below:
+# test-*.jpg
+# test-*.png
+# assets/images/tmp/
