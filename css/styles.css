@@ -1,6 +1,533 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2867
-\cocoatextscaling0\cocoaplatform0{\fonttbl}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww29200\viewh17740\viewkind0
+/* ==========================================================================
+   QUIET LUXURY & MIXED METAL EDITORIAL FRAMEWORK
+   Project: 27rroses Portfolio
+   ========================================================================== */
+
+:root {
+    /* --- The Ambient Canvas Palette --- */
+    --bg-color: #fcfbfa;         /* Warm, creamy alabaster / soft ivory */
+    --text-primary: #1c1b1a;     /* Deep, soft charcoal (our rich black) */
+    --text-muted: #85827a;       /* Subdued stone / taupe */
+    
+    /* --- Metallic Light Elements --- */
+    --gold-brass: #ad9a78;       /* Satin, muted brass highlight */
+    --chrome-reflection: linear-gradient(135deg, #e0e0e0 0%, #ffffff 45%, #999999 55%, #f0f0f0 100%);
+    --brushed-steel: linear-gradient(90deg, rgba(28, 27, 26, 0.1) 0%, rgba(133, 130, 122, 0.3) 50%, rgba(28, 27, 26, 0.1) 100%);
+    
+    /* --- Structural & Animation Parameters --- */
+    --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    --font-serif: "Didot", "Bodoni MT", "Cinzel", Georgia, serif;
+    --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* --- Base Normalization --- */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    letter-spacing: 0.03em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* Strict barrier blocking horizontal browser sway */
+}
+
+/* ==========================================================================
+   HEADER & NAVIGATION STRUCTURE
+   ========================================================================== */
+
+header {
+    padding: 4rem 2rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+}
+
+/* The Satin Brushed Chrome Rod Divider */
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 2rem;
+    right: 2rem;
+    height: 1px;
+    background: var(--brushed-steel); 
+}
+
+header h1 a {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 300; 
+    font-style: italic;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    display: inline-block;
+}
+
+/* Subtle metal glint across logo text on hover */
+header h1 a:hover {
+    background: var(--chrome-reflection);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+}
+
+nav a {
+    font-size: 0.75rem;
+    font-weight: 400; 
+    text-transform: uppercase;
+    letter-spacing: 0.2em; 
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    position: relative;
+    padding-bottom: 4px;
+}
+
+nav a:hover, nav a.active {
+    color: var(--text-primary);
+}
+
+/* Navigation active marker (Clean charcoal underline) */
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--text-primary);
+    transition: var(--transition-smooth);
+}
+nav a:hover::after, nav a.active::after {
+    width: 100%;
+}
+
+/* ==========================================================================
+   MAIN CORE CONTAINER
+   ========================================================================== */
+
+main {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 4rem 2rem 10rem 2rem; 
+    width: 100%;
+}
+
+/* ==========================================================================
+   SHARED ARTWORK COMPONENTS & FRAMES (UN-UNIFORM RAW LAYOUT)
+   ========================================================================== */
+
+.artwork-item {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 2rem; /* Clear breathing room below the text metadata */
+}
+
+/* The frame now shrinks and forms perfectly to the image's true dimensions */
+.image-wrapper {
+    background-color: #efeeea;
+    width: fit-content;      /* Wrapper collapses horizontally to match the image width */
+    max-width: 100%;         /* Absolute safety rail against browser overflow */
+    height: auto;            /* Removes the forced fixed height constraint */
+    overflow: hidden;
+    position: relative;
+    overflow: hidden; /* ADD THIS LINE */
+    display: block;          /* Changes block model to let natural text flow beneath it */
+    
+    /* Sharp black gallery frame preserved on the natural image border */
+    border: 1.5px solid var(--text-primary); 
+    box-shadow: 0 15px 35px rgba(28, 27, 26, 0.03);
+    transition: var(--transition-smooth);
+}
+
+/* Chromatic liquid reflection overlay adjusted for variable aspect ratios */
+.image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -150%;
+    width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.artwork-item:hover .image-wrapper::before {
+    left: 150%;
+}
+
+/* The image renders completely unaltered, uncropped, and raw */
+.image-wrapper img {
+    display: block;
+    width: auto;             /* Image maintains its native horizontal scale */
+    max-width: 100%;         /* Prevents super high-res photos from breaking out */
+    height: 100%;            /* Image maintains its native vertical scale */
+    object-fit: contain;     /* Safety fallback to prevent distortion */
+    filter: sepia(3%) contrast(97%);
+    transition: var(--transition-smooth);
+}
+
+/* Hover updates frame outline color to brass gold */
+.artwork-item:hover .image-wrapper {
+    box-shadow: 0 25px 50px rgba(28, 27, 26, 0.08);
+    border-color: var(--gold-brass); 
+}
+
+.artwork-item:hover .image-wrapper img {
+    transform: scale(1.005); /* Extremely gentle micro-scale to preserve sharp natural edges */
+    filter: sepia(0%) contrast(100%);
+}
+
+/* Artwork Metadata Placements align cleanly underneath the dynamic width frame */
+.artwork-meta {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ==========================================================================
+   GALLERY PAGE: INTERLOCKING MASONRY PUZZLE
+   ========================================================================== */
+
+.gallery-grid {
+    display: block;                  /* Breaks the rigid horizontal grid lines */
+    column-count: 2;                 /* Splits your archive into two fluid streams */
+    column-gap: 1.5rem;              /* Squeezes items close together horizontally */
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Forces projects to behave like puzzle blocks that pack tightly on top of each other */
+.gallery-grid .artwork-item,
+.gallery-grid .series-stack {
+    display: inline-block;           /* Prevents projects from breaking awkwardly across columns */
+    width: 100%;
+    margin-bottom: 2rem;             /* Tight, uniform spacing between stacked elements */
+    break-inside: avoid;             /* Browser guard to stabilize layout positioning */
+}
+
+/* Ensures multi-image series inside the puzzle stay bounded */
+.gallery-grid .series-images {
+    display: flex;
+    flex-direction: column;          /* Stacks series items seamlessly inside its stream */
+    gap: 1rem;                       /* Minimal negative space between series parts */
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Keeps your hard-earned artwork drawings completely raw and uncropped */
+.gallery-grid .image-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+/* ==========================================================================
+   MASTER BLUEPRINT: HORIZONTAL FILMSTRIP INDEX (UNCROPPED)
+   ========================================================================== */
+
+/* 1. Main Track Container */
+.index-grid {
+    display: flex;                  /* Forces all projects side-by-side horizontally */
+    flex-wrap: nowrap;              /* Hard block preventing items from breaking down a row */
+    overflow-x: auto;               /* Enables smooth horizontal track scrolling */
+    overflow-y: hidden;             /* Prevents accidental vertical page shifting */
+    gap: 4rem;                      /* Luxurious, intentional negative space between pieces */
+    width: 100vw;                   /* Spans across the full view width */
+    max-width: 100%;
+    padding: 3rem 4rem 5rem 4rem;   /* Generous bottom padding to completely clear scrollbars */
+    scroll-snap-type: x mandatory;  /* Smooth magnetic snapping onto your artwork */
+    scrollbar-width: thin;          /* Keeps desktop scrollbars clean and non-intrusive */
+    -webkit-overflow-scrolling: touch; /* Butter-smooth scrolling execution on iOS devices */
+}
+
+/* 2. Project Block Wrapper Envelopes */
+.index-grid > .artwork-item,
+.index-grid > .series-stack {
+    flex: 0 0 auto;                 /* CRITICAL: Stops the browser from squeezing or warping frames */
+    height: 520px;                  /* The master vertical baseline anchor for your landing row */
+    scroll-snap-align: start;       /* Anchors left frame edge perfectly on snap points */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0 !important;    /* Overrides old vertical stacking margin leakages */
+}
+
+/* 3. Standalone Project Width Logic */
+.index-grid > .artwork-item {
+    width: auto;                    /* Width adjusts naturally based on the image's layout */
+    max-width: 700px;               /* Safety valve: keeps isolated images from blowing up huge */
+}
+
+/* 4. Multi-Image Series Horizontal Flow */
+.index-grid .series-stack {
+    width: auto;                    /* Container expands gracefully only as series items are added */
+}
+
+.index-grid .series-images {
+    display: flex;
+    flex-direction: row !important; /* Force internal collection pieces horizontal */
+    flex-wrap: nowrap !important;
+    gap: 2rem;                      
+    height: 100%;                   /* Locks tight to the 520px track envelope */
+}
+
+.index-grid .series-images .artwork-item {
+    width: auto;
+    height: 100%;
+    margin-bottom: 0;
+}
+
+/* 5. THE ABSOLUTE UNCROPPED IMAGE ENGINE */
+.index-grid .image-wrapper {
+    height: calc(100% - 2.5rem) !important; /* Preserves exact proportional nest for metadata text */
+    width: auto !important;                 /* Let the box adjust horizontally */
+    overflow: hidden;
+    position: relative;
+}
+
+.index-grid .image-wrapper img {
+    height: 100% !important;        /* Locks perfectly to track height limits */
+    width: auto !important;         /* Forces the width to calculate naturally based on original ratio */
+    max-width: none !important;     /* Removes old layout caps pushing image limits down */
+    object-fit: contain !important; /* THE GUARANTEE: Raw, pristine proportions without any cropping */
+    display: block;
+}
+
+/* 6. Text Metadata Placements */
+.index-grid .artwork-meta {
+    margin-top: 0.75rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* ==========================================================================
+   MINIMAL CUSTOM TRACK DESIGN
+   ========================================================================== */
+.index-grid::-webkit-scrollbar {
+    height: 5px;                    /* Sleek architectural line */
+}
+.index-grid::-webkit-scrollbar-track {
+    background: transparent;
+}
+.index-grid::-webkit-scrollbar-thumb {
+    background-color: var(--gold-brass, #d4af37); /* Brass matching accent tint */
+    border-radius: 10px;
+}
+
+/* ==========================================================================
+   CLEAN RESPONSIVE COMPATIBILITY CONSTRAINTS (REPLACES ALL OLD MOBILE BLOCKS)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .index-grid {
+        padding: 2rem 1.5rem 3rem 1.5rem;
+        gap: 2.5rem;
+    }
+    
+    .index-grid > .artwork-item,
+    .index-grid > .series-stack {
+        height: 360px;              /* Proportionally steps down row profile height for mobile screens */
+    }
+
+    /* Maintains your dynamic interlocking masonry puzzle setup exclusively on your gallery page */
+    .gallery-grid {
+        column-count: 1 !important;
+        display: block !important;
+    }
+    .gallery-grid .series-stack {
+        grid-column: span 1 !important;
+    }
+}
+
+/* 3. ABOUT & CONTACT PAGES - Editorial Typography Framework */
+.editorial-hero {
+    max-width: 900px;
+    margin: 2rem 0 4rem 0;
+    width: 100%;
+}
+
+.editorial-hero h2 {
+    font-family: var(--font-serif);
+    font-size: 2.6rem;
+    font-weight: 300; 
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.editorial-body {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    max-width: 750px;
+}
+
+/* CONTACT ROW DETAILS */
+.contact-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 3rem;
+    width: 100%;
+}
+
+.contact-row {
+    position: relative;
+    padding-bottom: 1.5rem;
+    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+}
+
+/* Delicate accent borders below the contact links */
+.contact-row::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--text-primary);
+    opacity: 0.15;
+}
+
+.contact-label {
+    font-size: 0.75rem;
+    font-weight: 400; 
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+}
+
+.contact-value {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 300; 
+    color: var(--text-primary);
+}
+
+.contact-value a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.contact-value a:hover {
+    color: var(--gold-brass);
+}
+
+/* ==========================================================================
+   LIGHTBOX OVERLAY PRESENTATION STYLES
+   ========================================================================== */
+
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(28, 27, 26, 0.92); /* Deep soft charcoal backdrop */
+    backdrop-filter: blur(8px);               /* Elegant luxury softening blur */
+    z-index: 1000;                            /* Forces view above navigation */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    cursor: zoom-out;
+    transition: opacity 0.4s ease;
+}
+
+/* Smooth fade-in activation */
+.lightbox-overlay.active {
+    opacity: 1;
+}
+
+/* The enlarged artwork properties */
+.lightbox-image {
+    max-width: 90vw;   /* Keeps view perfectly bound inside 90% of screen width */
+    max-height: 85vh;  /* Keeps view perfectly bound inside 85% of screen height */
+    object-fit: contain; /* Preserves natural, uncropped raw aspect ratio entirely */
+    border: 1px solid rgba(252, 251, 250, 0.1); /* Soft contrast lip edge */
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    transform: scale(0.97);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox-overlay.active .lightbox-image {
+    transform: scale(1); /* Gentle expansion pop effect */
+}
+/* ==========================================================================
+   INTERLOCKING PUZZLE GRID FOR SERIES
+   ========================================================================== */
+
+/* The parent container holding the series collection */
+/* ==========================================================================
+   PROTECTIVE INNER SERIES STACKING
+   ========================================================================== */
+
+/* The container holding images inside a series block */
+.series-images {
+    display: flex;
+    flex-direction: column;   /* Forces inner series images to stack neatly vertically */
+    gap: 1.5rem;              /* Minimal, uniform layout margins between elements */
+    width: 100%;              /* Restricts everything to the exact width of its column */
+    max-width: 100%;          /* Hard boundary stop to prevent horizontal spill-overs */
+    margin-top: 1.5rem;
+}
+
+/* Force individual artwork frames inside a series to behave strictly */
+.series-images .artwork-item {
+    display: block;
+    width: 100%;
+    margin-bottom: 0;         /* Handled by the flex container gap above */
+}
+
+/* Ensure the wrapper respects the hard boundaries */
+.series-images .image-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.series-images .image-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;      /* Keeps your drawings completely uncropped and pristine */
+    display: block;
+}
+
+/* Pushes the tiny metadata caption tightly under the thin frame boundary */
+.series-images .artwork-meta {
+    margin-top: 0.5rem;
+    padding: 0 0.25rem;
 }
