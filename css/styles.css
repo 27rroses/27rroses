@@ -246,6 +246,8 @@ main {
     object-fit: contain;
     display: block;
 }
+
+
 /* ==========================================================================
    MASTER BLUEPRINT: HORIZONTAL FILMSTRIP INDEX (UNCROPPED)
    ========================================================================== */
@@ -341,17 +343,46 @@ main {
 }
 
 /* ==========================================================================
-   CLEAN RESPONSIVE COMPATIBILITY CONSTRAINTS (REPLACES ALL OLD MOBILE BLOCKS)
+   UNIVERSAL GALLERY TYPOGRAPHY OVERRIDE
+   ========================================================================== */
+
+.gallery-grid .artwork-title,
+.gallery-grid .series-main-title,
+.gallery-grid h2,
+.gallery-grid h3,
+.gallery-grid h4 {
+    font-family: var(--font-serif, "Didot", "Bodoni MT", "Cinzel", "Playfair Display", serif) !important;
+    font-size: 1.4rem !important;
+    font-weight: 400 !important;
+    font-style: italic !important;
+    color: #111111 !important;
+    text-transform: none !important;
+}
+
+
+/* ==========================================================================
+   CLEAN RESPONSIVE COMPATIBILITY CONSTRAINTS (KEEP THIS AT THE VERY BOTTOM)
    ========================================================================== */
 @media (max-width: 768px) {
     .index-grid {
         padding: 2rem 1.5rem 3rem 1.5rem;
         gap: 2.5rem;
     }
-    
+
+    .site-header {
+        flex-direction: column;     
+        gap: 1.5rem;                
+        padding: 2rem 1.5rem 1rem 1.5rem; 
+        text-align: center;
+    }
+
+    .site-nav {
+        gap: 1.5rem;                
+    }
+
     .index-grid > .artwork-item,
     .index-grid > .series-stack {
-        height: 360px;              /* Proportionally steps down row profile height for mobile screens */
+        height: 360px;              
     }
 
     /* Maintains your dynamic interlocking masonry puzzle setup exclusively on your gallery page */
@@ -359,10 +390,11 @@ main {
         column-count: 1 !important;
         display: block !important;
     }
+    
     .gallery-grid .series-stack {
         grid-column: span 1 !important;
     }
-}
+} /* <--- This bracket perfectly closes the mobile media block cleanly! */
 
 /* 3. ABOUT & CONTACT PAGES - Editorial Typography Framework */
 .editorial-hero {
